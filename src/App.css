@@ -40,8 +40,3 @@
   }
 }
 
-.thead {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
