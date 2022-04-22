@@ -11,7 +11,7 @@ function Table() {
 
   const planetName = data.filter((values) => values.name.includes(filterByName));
 
-  const filtering = planetName.filter((item) => {
+  const filterOne = planetName.filter((item) => {
     if (filterByNumericValues.comparison === 'menor que') {
       return item[filterByNumericValues.column] < Number(filterByNumericValues.value);
     }
@@ -25,8 +25,31 @@ function Table() {
     return item;
   });
 
+  const filtering = filterOne.filter((filt) => {
+    if (filterByNumericValues.prevState) {
+      if (filterByNumericValues.prevState.comparison === 'menor que') {
+        return filt[filterByNumericValues.prevState.column] < Number(filterByNumericValues
+          .prevState.value);
+      }
+      if (filterByNumericValues.prevState.comparison === 'maior que') {
+        return filt[filterByNumericValues.prevState.column] > Number(filterByNumericValues
+          .prevState.value);
+      }
+      if (filterByNumericValues.prevState.comparison === 'igual a') {
+        return Number(filt[filterByNumericValues
+          .prevState.column]) === Number(filterByNumericValues.prevState.value);
+      }
+    }
+    return filt;
+  });
+
   const handleClick = () => {
-    setFilterByNumericValues({ column, comparison, value });
+    setFilterByNumericValues((prevState) => ({
+      prevState,
+      column,
+      comparison,
+      value,
+    }));
   };
 
   return (
@@ -100,48 +123,25 @@ function Table() {
           </tr>
         </thead>
         {
-          filtering
-            ? (
-              filtering.map((item) => (
-                <tbody key={ item.name }>
-                  <tr>
-                    <td>{ item.name }</td>
-                    <td>{ item.rotation_period }</td>
-                    <td>{ item.orbital_period }</td>
-                    <td>{ item.diameter }</td>
-                    <td>{ item.climate }</td>
-                    <td>{ item.gravity }</td>
-                    <td>{ item.terrain }</td>
-                    <td>{ item.surface_water }</td>
-                    <td>{ item.population }</td>
-                    <td>{ item.films }</td>
-                    <td>{ item.created }</td>
-                    <td>{ item.edited }</td>
-                    <td>{ item.url }</td>
-                  </tr>
-                </tbody>
-              )))
-            : (
-              data.map((values) => (
-                <tbody key={ values.name }>
-                  <tr>
-                    <td>{ values.name }</td>
-                    <td>{ values.rotation_period }</td>
-                    <td>{ values.orbital_period }</td>
-                    <td>{ values.diameter }</td>
-                    <td>{ values.climate }</td>
-                    <td>{ values.gravity }</td>
-                    <td>{ values.terrain }</td>
-                    <td>{ values.surface_water }</td>
-                    <td>{ values.population }</td>
-                    <td>{ values.films }</td>
-                    <td>{ values.created }</td>
-                    <td>{ values.edited }</td>
-                    <td>{ values.url }</td>
-                  </tr>
-                </tbody>
-              ))
-            )
+          filtering.map((item) => (
+            <tbody key={ item.name }>
+              <tr>
+                <td>{ item.name }</td>
+                <td>{ item.rotation_period }</td>
+                <td>{ item.orbital_period }</td>
+                <td>{ item.diameter }</td>
+                <td>{ item.climate }</td>
+                <td>{ item.gravity }</td>
+                <td>{ item.terrain }</td>
+                <td>{ item.surface_water }</td>
+                <td>{ item.population }</td>
+                <td>{ item.films }</td>
+                <td>{ item.created }</td>
+                <td>{ item.edited }</td>
+                <td>{ item.url }</td>
+              </tr>
+            </tbody>
+          ))
         }
       </table>
     </section>
