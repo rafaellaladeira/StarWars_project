@@ -10,6 +10,8 @@ function Table() {
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
   const planetName = data.filter((values) => values.name.includes(filterByName));
+  const OPTIONS = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
 
   const filterOne = planetName.filter((item) => {
     if (filterByNumericValues.comparison === 'menor que') {
@@ -43,6 +45,13 @@ function Table() {
     return filt;
   });
 
+  const options = OPTIONS.filter((change) => {
+    if (filterByNumericValues.column) {
+      return change !== filterByNumericValues.column;
+    }
+    return change;
+  });
+
   const handleClick = () => {
     setFilterByNumericValues((prevState) => ({
       prevState,
@@ -50,6 +59,7 @@ function Table() {
       comparison,
       value,
     }));
+    console.log(column);
   };
 
   return (
@@ -71,11 +81,16 @@ function Table() {
             id="column"
             onChange={ (e) => setColumn(e.target.value) }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {
+              options.map((option) => (
+                <option
+                  key={ option }
+                  value={ option }
+                >
+                  { option }
+                </option>
+              ))
+            }
           </select>
         </label>
         <label htmlFor="valor">
