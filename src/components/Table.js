@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import APIContext from '../../context/APIContext';
+import APIContext from '../context/APIContext';
 
 function Table() {
   const { data } = useContext(APIContext);
@@ -10,7 +10,12 @@ function Table() {
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
   const planetName = data.filter((values) => values.name.includes(filterByName));
-  const OPTIONS = ['population', 'orbital_period', 'diameter',
+
+  const TABLE_ROWS = ['Name', 'Rotation Period', 'Orbital Period', 'Diameter',
+    'Climate', 'Gravity', 'Terrain', 'Surface Water', 'Population', 'Films',
+    'Created', 'Edited', 'URL'];
+
+  let OPTIONS = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
 
   const filterOne = planetName.filter((item) => {
@@ -45,7 +50,7 @@ function Table() {
     return filt;
   });
 
-  const options = OPTIONS.filter((change) => {
+  OPTIONS = OPTIONS.filter((change) => {
     if (filterByNumericValues.column) {
       return change !== filterByNumericValues.column;
     }
@@ -59,7 +64,6 @@ function Table() {
       comparison,
       value,
     }));
-    console.log(column);
   };
 
   return (
@@ -82,7 +86,7 @@ function Table() {
             onChange={ (e) => setColumn(e.target.value) }
           >
             {
-              options.map((option) => (
+              OPTIONS.map((option) => (
                 <option
                   key={ option }
                   value={ option }
@@ -119,22 +123,11 @@ function Table() {
           Filtrar
         </button>
       </div>
+
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Rotation Period</th>
-            <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
-            <th>Terrain</th>
-            <th>Surface Water</th>
-            <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
-            <th>URL</th>
+            { TABLE_ROWS.map((row) => (<th key={ row }>{ row }</th>)) }
           </tr>
         </thead>
         {
@@ -164,22 +157,3 @@ function Table() {
 }
 
 export default Table;
-
-// DADOS QUE VOU USAR NA HORA DE REFATORAR A PAGINA TABLE:
-/* const gettingKeys = data.map((item) => Object.keys(item)
-    .filter((key) => key !== 'residents'));
-  const keysTook = gettingKeys[0];
-  console.log(keysTook);
-
-    {
-            TABLE_ROWS.map((row) => (
-              <thead key={ row } className="thead">
-                <th>{row}</th>
-              </thead>
-            ))
-          }
-  */
-
-/* const TABLE_ROWS = ['Name', 'Rotation Period', 'Orbital Period', 'Diameter',
-    'Climate', 'Gravity', 'Terrain', 'Surface Water', 'Population', 'Films',
-    'Created', 'Edited', 'URL']; */
