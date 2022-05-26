@@ -15,7 +15,7 @@ function Table() {
     'Climate', 'Gravity', 'Terrain', 'Surface Water', 'Population', 'Films',
     'Created', 'Edited', 'URL'];
 
-  let OPTIONS = ['population', 'orbital_period', 'diameter',
+  const OPTIONS = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
 
   const filterOne = planetName.filter((item) => {
@@ -50,12 +50,12 @@ function Table() {
     return filt;
   });
 
-  OPTIONS = OPTIONS.filter((change) => {
-    if (filterByNumericValues.column) {
-      return change !== filterByNumericValues.column;
-    }
-    return change;
-  });
+  // OPTIONS = OPTIONS.filter((change) => {
+  //   if (filterByNumericValues.column) {
+  //     return change !== filterByNumericValues.column;
+  //   }
+  //   return change;
+  // });
 
   const handleClick = () => {
     setFilterByNumericValues((prevState) => ({
@@ -64,12 +64,17 @@ function Table() {
       comparison,
       value,
     }));
+
+    if (filterByNumericValues.column) {
+      const index = OPTIONS.indexOf(filterByNumericValues.column);
+      OPTIONS.splice(index, 1);
+    }
   };
 
   return (
     <section>
-      <h1>Star Wars</h1>
-      <div>
+      <h1 className="title">Star Wars</h1>
+      <div className="header">
         <input
           data-testid="name-filter"
           type="text"
@@ -127,12 +132,13 @@ function Table() {
       <table>
         <thead>
           <tr>
-            { TABLE_ROWS.map((row) => (<th key={ row }>{ row }</th>)) }
+            { TABLE_ROWS.map((row) => (
+              <th className="titles" key={ row }>{ row }</th>)) }
           </tr>
         </thead>
         {
           filtering.map((item) => (
-            <tbody key={ item.name }>
+            <tbody className="" key={ item.name }>
               <tr>
                 <td>{ item.name }</td>
                 <td>{ item.rotation_period }</td>

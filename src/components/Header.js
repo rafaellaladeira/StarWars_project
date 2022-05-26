@@ -3,7 +3,7 @@ import FilterName from './FilterName';
 
 function Header() {
   return (
-    <section>
+    <section className="header">
       <FilterName />
     </section>
   );
